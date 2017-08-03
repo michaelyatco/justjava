@@ -8,6 +8,7 @@
 package com.example.android.justjava;
 
 import android.content.Intent;
+import android.icu.text.NumberFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             // Exit this method early because there's nothing left to do
             return;
         }
-        quantity = quantity + 1;
+        quantity += 1;
         displayQuantity(quantity);
     }
 
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             // Exit this method early because there's nothing left to do
             return;
         }
-        quantity = quantity - 1;
+        quantity -= 1;
         displayQuantity(quantity);
     }
 
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
-        
+
     }
 
     /**
@@ -121,12 +122,13 @@ public class MainActivity extends AppCompatActivity {
      * @return text summary
      */
     private String createOrderSummary(String name, int price, boolean addWhippedCream, boolean addChocolate) {
-        String priceMessage = "Name: " + name;
-        priceMessage += "\nAdd whipped cream? " + addWhippedCream;
-        priceMessage += "\nAdd chocolate? " + addChocolate;
-        priceMessage += "\nQuantity: " + quantity;
-        priceMessage += "\nTotal: $" + price;
-        priceMessage += "\nThank you!";
+        String priceMessage = getString(R.string.order_summary_name, name);
+        priceMessage += "\n" + getString(R.string.order_summary_whipped_cream, addWhippedCream);
+        priceMessage += "\n" + getString(R.string.order_summary_chocolate, addChocolate);
+        priceMessage += "\n" + getString(R.string.order_summary_quantity, quantity);
+        priceMessage += "\n" + getString(R.string.order_summary_price,
+                NumberFormat.getCurrencyInstance().format(price));
+        priceMessage += "\n" + getString(R.string.thank_you);
         return priceMessage;
     }
 
